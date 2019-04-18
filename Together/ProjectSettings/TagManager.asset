@@ -44,6 +44,9 @@ TagManager:
   - name: BackgroundLayer
     uniqueID: 3059818065
     locked: 0
+  - name: Groundx
+    uniqueID: 486955071
+    locked: 0
   - name: GroundLayer
     uniqueID: 65407293
     locked: 0
