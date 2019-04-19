@@ -13,12 +13,13 @@ public class playerMovement : MonoBehaviour
     public float runSpeed = 10;
     public float maxRunSpeed = 3;
     public float jumpPower = 100f;
-    float jumpCooldown = 0f;
-    float horizontal = 0f;
+    private float jumpCooldown = 0f;
+    private float horizontal = 0f;
     private float punchCooldown = 0f;
     private float runPunchCooldown = 0f;
 
     bool facingRight = true;
+
     [SerializeField] bool jumped = false;
     [SerializeField] bool grounded = false;
     [SerializeField] bool isIdle = false;
@@ -70,6 +71,8 @@ public class playerMovement : MonoBehaviour
         FixedInputUpdate();
         Facing();
 
+        
+
 
     }
 
@@ -98,18 +101,16 @@ public class playerMovement : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !jumped) //yumruk TODO: yumruk ederek zıplama ve hareket etme engellenicek
+        if (Input.GetKeyDown(KeyCode.E) && !jumped) 
         {
             isPunch = true;
-            rbody.velocity = new Vector2(0, rbody.velocity.y);
+
             punchCooldown = 0.75f;
 
         }
         else if (punchCooldown <= 0)
         {
             isPunch = false;
-
-
         }
 
 
@@ -173,10 +174,10 @@ public class playerMovement : MonoBehaviour
     {
 
         horizontal = Input.GetAxis("Horizontal");
+        rbody.velocity = new Vector2(horizontal * moveSpeed,rbody.velocity.y);
 
 
 
-        rbody.AddForce(new Vector2(horizontal * moveSpeed, 0));
 
         if (isRun)
         {
@@ -191,7 +192,7 @@ public class playerMovement : MonoBehaviour
         if (isPunch)
         {
             maxSpeed = 0;
-            rbody.AddForce(new Vector2(horizontal *moveSpeed, 0));
+            
         }
 
         if (Mathf.Abs(rbody.velocity.x) > maxSpeed)
@@ -317,6 +318,8 @@ public class playerMovement : MonoBehaviour
         }
 
     }
+
+
 
     void Facing()
     {
