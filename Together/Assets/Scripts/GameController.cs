@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     public void Awake()
     {
+        
         if (instance != null)
             Destroy(gameObject);
 
