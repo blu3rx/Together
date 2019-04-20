@@ -19,7 +19,7 @@ public class playerMovement : MonoBehaviour
     private float runPunchCooldown = 0f;
 
     bool facingRight = true;
-
+    [SerializeField] bool headHit = false;
     [SerializeField] bool jumped = false;
     [SerializeField] bool grounded = false;
     [SerializeField] bool isIdle = false;
@@ -51,6 +51,8 @@ public class playerMovement : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.31f, (1 << 9));
         Debug.DrawLine(transform.position, (Vector2)transform.position + (Vector2.down * 0.31f), Color.red, 1f);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.up, 0.31f, (1 << 9));
+        Debug.DrawLine(transform.position, (Vector2)transform.position + (Vector2.up * 0.31f), Color.yellow, 1f);
 
         if (hit.collider != null && jumpCooldown <= 0)
         {
@@ -58,6 +60,13 @@ public class playerMovement : MonoBehaviour
             jumped = false;
         }
         else grounded = false;
+
+        if (hit2.collider != null)
+        {
+            headHit = true;
+        }
+        else headHit = false;
+
 
 
         InputUpdate();
@@ -101,11 +110,18 @@ public class playerMovement : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !jumped) 
+        if (Input.GetKeyDown(KeyCode.E)) //yumruk
         {
             isPunch = true;
-
-            punchCooldown = 0.75f;
+            if (!grounded)
+            {
+                punchCooldown = 0.5f;
+            }
+            else
+            {
+                punchCooldown = 0.75f;
+            }
+           
 
         }
         else if (punchCooldown <= 0)
@@ -135,7 +151,7 @@ public class playerMovement : MonoBehaviour
         }
         if (isCrounch)
         {
-            if (horizontal != 0)
+            if (horizontal != 0 )
             {
                 isCrouchWalk = true;
                 maxSpeed = 0.5f;
@@ -149,13 +165,16 @@ public class playerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q) && !jumped && isRun)//kayma
         {
+            
             isSlide = true;
         } else if (Input.GetKeyUp(KeyCode.Q))
         {
-            isSlide = false;
+             isSlide = false;
+            
+           
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && isRun)//TODO: tek bikere yumruk atıp koşmaya devam etmesi sağlanıcak
+        if (Input.GetKeyDown(KeyCode.E) && isRun)//koşarken yumruk
         {
             isRunPunch = true;
             runPunchCooldown = 0.75f;
@@ -164,9 +183,6 @@ public class playerMovement : MonoBehaviour
         {
             isRunPunch = false;
         }
-
-
-
 
     }
 
@@ -209,7 +225,7 @@ public class playerMovement : MonoBehaviour
         {
             isIdle = true;
             isWalk = false;
-            isRun = false;
+            
         }
         if (horizontal != 0 && !jumped && !isRun && !isCrouchWalk)// yürümeye geçiş
         {
@@ -237,7 +253,6 @@ public class playerMovement : MonoBehaviour
             isRun = false;
             isCrounch = false;
             isCrouchWalk = false;
-            isPunch = false;
             isSlide = false;
         }
         if (isCrouchWalk)//eğilerek yürüme
@@ -251,6 +266,7 @@ public class playerMovement : MonoBehaviour
             isCrounch = false;
             isRun = false;
             isWalk = false;
+            jumped = false;
         }
         if (isSlide)//kayma
         {
@@ -270,6 +286,8 @@ public class playerMovement : MonoBehaviour
             isPunch = false;
         }
 
+
+  
 
 
 
