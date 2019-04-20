@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public string yazi = "asasha";
+   
 
     private static GameController instance;
 
-    public GameObject go1;
+    public GameObject _player;
 
     public void Awake()
     {

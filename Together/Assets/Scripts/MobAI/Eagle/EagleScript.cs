@@ -21,10 +21,9 @@ public class EagleScript : MonoBehaviour
     public Sprite SPRITEWhenAttack;
     void Start()
     {
-        //!!!!!!!!!!!!!!!!!!!!!!!^!'+&%q''^+%&/()(/%+^'^+%&/(/&%+^'!^+%&/()= .d////////
-        //!!!!!!! KARAKTERİN GAMEOBJECTİNİ SADECE BURADA KULLANDIM//////////////////////
-        GOCharacter = GameObject.Find("Player").gameObject;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!/////////////////
+    
+        GOCharacter = GameController.Instance._player;
+       
         
         StartPositionX = this.transform.position.x;
         StartPositionY = this.transform.position.y;
