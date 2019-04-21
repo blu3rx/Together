@@ -14,7 +14,7 @@ public class EagleScript : MonoBehaviour
     public float AreaOfStrolling = 5f, velocity = 3f, velocityForEagleAtack = 0.03f,DistanceOfAttack=2f,WaitForAgainAttackSecond=3f;
     float StartPositionX,StartPositionY;
     float smoothFactor = 0.01f, velo = 0.1f, WaitForAgainAttackSecondCurrent=0f;
-    bool BOOLIsFly = false, BOOLDirection = false, BOOLIsEnemySpoted = false, BOOLReadyForAttack = false,BOOLAfterHit=false,BOOLAtackIsComplete=false;
+    bool BOOLIsFly = false, BOOLDirection = false, BOOLIsEnemySpoted = false, BOOLReadyForAttack = false,BOOLAfterHit=false,BOOLAtackIsComplete=false,BOOLDead=false;
     GameObject GOCharacter;
     Vector2 VECTOR2characterWhenSpoted;
     Vector3 currentAngle;
@@ -26,7 +26,7 @@ public class EagleScript : MonoBehaviour
     {
         eagle = new baseCharacter();
         eagle.CharacterName = "eagle";
-        eagle.Health = 200;
+        eagle.Health = 100;
         eagle.Damage = 50;
         GOCharacter = GameController.Instance.Player;
     }
@@ -45,6 +45,33 @@ public class EagleScript : MonoBehaviour
     }
     void Update()
     {
+        #region Dead
+        if (eagle.isDead)
+        {
+            eagle.isDead = false;
+            BOOLDead = true;
+            BOOLAfterHit = false;
+            BOOLAtackIsComplete = false;
+            BOOLIsEnemySpoted = false;
+            BOOLIsFly = false;
+            BOOLReadyForAttack = false;
+            
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
+            if (gameObject.GetComponent<SpriteRenderer>().flipX)
+                transform.rotation = new Quaternion(0, 0, 270,0);
+            else
+                transform.rotation = new Quaternion(0, 0, 90, 0);
+
+            gameObject.GetComponent<Animator>().enabled = false;
+            Destroy(gameObject, 5f);
+        }
+        if (BOOLDead)
+        {
+            transform.Translate(0, velocity * Time.deltaTime * 2, 0);
+        }
+
+        #endregion
         if (Mathf.Abs(Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(GOCharacter.gameObject.transform.position.x)) < DistanceOfAttack  && WaitForAgainAttackSecond<=WaitForAgainAttackSecondCurrent)
         {
             BOOLIsEnemySpoted = true;
@@ -146,7 +173,6 @@ public class EagleScript : MonoBehaviour
                 BOOLReadyForAttack = false;
                 if (ShowDebugLogs)
                 Debug.Log("Çarpışma Gerçekleşti");
-                GOCharacter.GetComponent<playerMovement>().player.Hit(eagle.Damage);
                 smoothFactor = 0.1f;
             }
 
@@ -160,7 +186,7 @@ public class EagleScript : MonoBehaviour
             if (!(StartPositionY <=this.transform.position.y))
             {
                
-                gameObject.transform.Translate(0, velocity, 0);    
+                gameObject.transform.Translate(0, velocity * Time.deltaTime, 0);    
                 
             }
             else
@@ -178,11 +204,11 @@ public class EagleScript : MonoBehaviour
 
             if (gameObject.transform.position.x < StartPositionX)
             {
-                gameObject.transform.Translate(velocity, 0, 0);
+                gameObject.transform.Translate(velocity * Time.deltaTime, 0, 0);
             }
             else if (gameObject.transform.position.x > StartPositionX + AreaOfStrolling)
             {
-                gameObject.transform.Translate(-velocity, 0, 0);
+                gameObject.transform.Translate(-velocity * Time.deltaTime, 0, 0);
             }
             
         }
@@ -193,11 +219,11 @@ public class EagleScript : MonoBehaviour
         {
             if (BOOLDirection)
             {
-                transform.Translate(velocity, 0, 0);
+                transform.Translate(velocity * Time.deltaTime, 0, 0);
             }
             else
             {
-                transform.Translate(-velocity, 0, 0);
+                transform.Translate(-velocity * Time.deltaTime, 0, 0);
             }
 
             if (transform.position.x > StartPositionX + AreaOfStrolling)
@@ -213,7 +239,15 @@ public class EagleScript : MonoBehaviour
             }
         }
         #endregion
-
+        
     }
+    void OnColliderEnter2D(Collider2D col)
+    {
+        if(col.gameObject.tag=="Player")
+        {
+            col.gameObject.GetComponent<playerMovement>().player.Hit(eagle.Damage);
+        }
+    }
+    
    
 }

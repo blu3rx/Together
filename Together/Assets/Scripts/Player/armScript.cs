@@ -12,6 +12,7 @@ public class armScript : MonoBehaviour
     {
         if (col.gameObject.tag == "eagleTag")
         {
+            Debug.Log("KartalaVuruldu");
            col.gameObject.GetComponent<EagleScript>().eagle.Hit(GameController.Instance.Player.GetComponent<playerMovement>().player.Damage);
         }
     }
