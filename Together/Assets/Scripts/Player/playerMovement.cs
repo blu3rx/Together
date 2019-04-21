@@ -41,6 +41,7 @@ public class playerMovement : MonoBehaviour
         player = new baseCharacter();
 
         player.Health = 100f;
+        player.Damage = 200f;
         player.CharacterName = "Player";
     }
 
@@ -87,10 +88,7 @@ public class playerMovement : MonoBehaviour
         CheckAnim();
         UpdateAnims();
 
-        if (player.isDead)
-        {
-            Debug.Log("Öldüm!!!!");
-        }
+    
     }
 
     void FixedUpdate()
