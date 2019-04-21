@@ -84,7 +84,7 @@ public class EagleScript : MonoBehaviour
                 angle90 = 0;
             }
             // get the angle
-            Vector3 normalizedTarget = (GOCharacter.gameObject.transform.position - transform.position).normalized;
+            Vector3 normalizedTarget = (new Vector3(VECTOR2characterWhenSpoted.x,VECTOR2characterWhenSpoted.y,0) - transform.position).normalized;
             float angle = Mathf.Atan2(normalizedTarget.x, normalizedTarget.y) * Mathf.Rad2Deg;
             // rotate to angle
             Quaternion rotation = new Quaternion();
@@ -127,40 +127,6 @@ public class EagleScript : MonoBehaviour
                 Mathf.LerpAngle(currentAngle.z, rotation.eulerAngles.z, velo));
             }
 
-
-            ////////isFly = false;
-            ////////     if(transform.position.x < CharacterGO.gameObject.transform.position.x)
-            ////////     {
-            ////////         //Kartal Karakterin Solunda.
-            ////////         Debug.Log("Kartal Karakterin Solunda.");
-            ////////         isEnemySpoted = false;
-
-            ////////     }
-            ////////     else if (transform.position.x == CharacterGO.gameObject.transform.position.x)
-            ////////     {
-            ////////         //kartal tam üstünde
-            ////////         Debug.Log("kartal tam üstünde");
-            ////////         isEnemySpoted = false;
-            ////////     }
-            ////////     else
-            ////////     {
-            ////////         //Kartal KArakterin Sağında
-            ////////         Debug.Log("Kartal KArakterin Sağında");
-            ////////         isEnemySpoted = false;
-            ////////     }
-            ////////     // get the angle
-            ////////     Vector3 normalizedTarget = (CharacterGO.gameObject.transform.position - transform.position).normalized;
-            ////////     float angle = Mathf.Atan2(normalizedTarget.x, normalizedTarget.y) * Mathf.Rad2Deg;
-            ////////     float velo = 0.1f;
-            ////////     // rotate to angle
-            ////////     Quaternion rotation = new Quaternion();
-            ////////     rotation.eulerAngles = new Vector3(0, 0, (angle - 90));
-            ////////     currentAngle = new Vector3(
-            ////////         Mathf.LerpAngle(currentAngle.x, rotation.eulerAngles.x, velo),
-            ////////         Mathf.LerpAngle(currentAngle.y, rotation.eulerAngles.y, velo),
-            ////////         Mathf.LerpAngle(currentAngle.z, rotation.eulerAngles.z, velo));
-
-
         }
         #endregion
         #region Attack
@@ -190,9 +156,10 @@ public class EagleScript : MonoBehaviour
         #region AfterAttack
         if (BOOLAfterHit)//Playere Kafa Attıktan sonra yerine dönülecek
         {
+            transform.rotation = new Quaternion(0, 0, 0, 0);
             if (!(StartPositionY <=this.transform.position.y))
             {
-                transform.rotation = new Quaternion(0, 0, 0, 0);
+               
                 gameObject.transform.Translate(0, velocity, 0);    
                 
             }
