@@ -23,8 +23,7 @@ public class EagleScript : MonoBehaviour
     {
 
         GOCharacter = GameController.Instance.Player;
-
-       
+   
        
         
         StartPositionX = this.transform.position.x;

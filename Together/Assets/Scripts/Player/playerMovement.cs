@@ -31,11 +31,17 @@ public class playerMovement : MonoBehaviour
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
 
+    public baseCharacter player;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
+
+        player = new baseCharacter();
+
+        player.Health = 100f;
+        player.name = "Player";
     }
 
     void Update()

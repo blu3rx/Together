@@ -5337,6 +5337,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Eagle
       objectReference: {fileID: 0}
+    - target: {fileID: 3593746390707364161, guid: d1b635508aff914429e280b8713a7f97,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3593746390707364165, guid: d1b635508aff914429e280b8713a7f97,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5394,12 +5399,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1b635508aff914429e280b8713a7f97, type: 3}
---- !u!1 &1880376048 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7257246048620585187, guid: 7451fc78a7a0ef34dae2047d413bdd9d,
-    type: 3}
-  m_PrefabInstance: {fileID: 7257246048814139123}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1954911691
 GameObject:
   m_ObjectHideFlags: 0
@@ -11404,6 +11403,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7257246048620585188, guid: 7451fc78a7a0ef34dae2047d413bdd9d,
+        type: 3}
+      propertyPath: isIdle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257246048620585188, guid: 7451fc78a7a0ef34dae2047d413bdd9d,
+        type: 3}
+      propertyPath: grounded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257246048620585188, guid: 7451fc78a7a0ef34dae2047d413bdd9d,
+        type: 3}
+      propertyPath: isCrounch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257246048620585188, guid: 7451fc78a7a0ef34dae2047d413bdd9d,
+        type: 3}
+      propertyPath: isRun
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7451fc78a7a0ef34dae2047d413bdd9d, type: 3}
 --- !u!1001 &8749650890932028048
@@ -11473,10 +11492,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8749650891732462150, guid: a361cce5255059e42b5ecc05b52f1160,
-        type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 1880376048}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a361cce5255059e42b5ecc05b52f1160, type: 3}

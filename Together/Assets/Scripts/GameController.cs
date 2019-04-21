@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
         if (instance != null)
             Destroy(gameObject);
 
-        _player = GameObject.Find("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
 
 
     }
