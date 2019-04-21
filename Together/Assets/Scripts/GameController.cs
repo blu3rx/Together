@@ -8,13 +8,17 @@ public class GameController : MonoBehaviour
 
     private static GameController instance;
 
-    public GameObject _player;
+    private GameObject _player;
+    
+    
 
     public void Awake()
     {
         
         if (instance != null)
             Destroy(gameObject);
+
+        _player = GameObject.Find("Player");
 
 
     }
@@ -32,6 +36,14 @@ public class GameController : MonoBehaviour
 
             }
             return instance;
+        }
+    }
+
+    public GameObject Player
+    {
+        get
+        {
+            return _player;
         }
     }
 }

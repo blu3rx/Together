@@ -157,6 +157,7 @@ MonoBehaviour:
   runSpeed: 10
   maxRunSpeed: 3
   jumpPower: 2
+  headHit: 0
   jumped: 0
   grounded: 0
   isIdle: 0

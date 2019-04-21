@@ -21,8 +21,10 @@ public class EagleScript : MonoBehaviour
     public Sprite SPRITEWhenAttack;
     void Start()
     {
-    
-        GOCharacter = GameController.Instance._player;
+
+        GOCharacter = GameController.Instance.Player;
+
+       
        
         
         StartPositionX = this.transform.position.x;
