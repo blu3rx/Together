@@ -31,7 +31,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
 
-     baseCharacter player;
+     public baseCharacter player;
 
     void Awake()
     {
@@ -86,6 +86,11 @@ public class playerMovement : MonoBehaviour
         InputUpdate();
         CheckAnim();
         UpdateAnims();
+
+        if (player.isDead)
+        {
+            Debug.Log("Öldüm!!!!");
+        }
     }
 
     void FixedUpdate()
