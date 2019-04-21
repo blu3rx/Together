@@ -8,6 +8,8 @@ public class playerMovement : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rbody;
 
+    
+
     public float moveSpeed = 5f;
     public float maxSpeed = 5f;
     public float runSpeed = 10;
@@ -17,8 +19,11 @@ public class playerMovement : MonoBehaviour
     private float horizontal = 0f;
     private float punchCooldown = 0f;
     private float runPunchCooldown = 0f;
+    private float deadTimer;
+
 
     bool facingRight = true;
+    bool gameOver = false;
     [SerializeField] bool headHit = false;
     [SerializeField] bool jumped = false;
     [SerializeField] bool grounded = false;
@@ -30,6 +35,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] bool isPunch = false;
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
+    [SerializeField] bool isDead = false;
 
      public baseCharacter player;
 
@@ -43,6 +49,7 @@ public class playerMovement : MonoBehaviour
         player.Health = 100f;
         player.Damage = 200f;
         player.CharacterName = "Player";
+        gameOver = false;
     }
 
     void Start()
@@ -55,13 +62,15 @@ public class playerMovement : MonoBehaviour
 
     void Update()
     {
-
+        isDead = player.isDead;
         if (jumpCooldown > 0)
             jumpCooldown -= Time.deltaTime;
         if (punchCooldown > 0)
             punchCooldown -= Time.deltaTime;
         if (runPunchCooldown > 0)
             runPunchCooldown -= Time.deltaTime;
+        if (deadTimer > 0)
+            deadTimer -= Time.deltaTime;
 
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.31f, (1 << 9));
@@ -87,6 +96,20 @@ public class playerMovement : MonoBehaviour
         InputUpdate();
         CheckAnim();
         UpdateAnims();
+
+
+        if(player.isDead)
+            Dead();
+        if (gameOver && deadTimer < 0.5f)
+        {
+            player.isDead = false; 
+        }
+        if (!gameOver)
+        {
+            Time.timeScale = 1;
+        }
+   
+
 
     
     }
@@ -238,7 +261,7 @@ public class playerMovement : MonoBehaviour
 
     void CheckAnim()
     {
-        if (horizontal == 0 && !jumped)// idle a geçiş
+        if (horizontal == 0 && !jumped&&!isDead)// idle a geçiş
         {
             isIdle = true;
             isWalk = false;
@@ -302,7 +325,18 @@ public class playerMovement : MonoBehaviour
             isWalk = false;
             isPunch = false;
         }
-
+        if (isDead)
+        {
+            jumped = false;
+            isIdle = false;
+            isWalk = false;
+            isRun = false;
+            isCrounch = false;
+            isCrouchWalk = false;
+            isPunch = false;
+            isRunPunch = false;
+            isSlide = false;
+        }
 
   
 
@@ -371,6 +405,22 @@ public class playerMovement : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+    void Dead()
+    {
+        anim.Play("dead");
+        StartCoroutine(DeadTimer());
+    }
+    IEnumerator DeadTimer()
+    {
+        deadTimer = 1f;
+        yield return new WaitForSeconds(1);
+        gameOver = true;
+        Time.timeScale = 0f;
+       
+       
+    }
+
 
 
 

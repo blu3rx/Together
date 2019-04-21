@@ -51,8 +51,9 @@ public class baseCharacter
         Health-=hit;
         if (health <= 0)
         {
-            
-            Debug.Log(characterName + "Öldü pij");
+
+           // Debug.Log(characterName + "Öldü pij");
+
             isDead =  true;
 
         }

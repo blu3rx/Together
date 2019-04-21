@@ -26,8 +26,10 @@ public class EagleScript : MonoBehaviour
     {
         eagle = new baseCharacter();
         eagle.CharacterName = "eagle";
-        eagle.Health = 100;
-        eagle.Damage = 50;
+
+        eagle.Health = 200;
+        eagle.Damage = 100;
+
         GOCharacter = GameController.Instance.Player;
     }
     void Start()
