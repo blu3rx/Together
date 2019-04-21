@@ -31,7 +31,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
 
-    public baseCharacter player;
+     baseCharacter player;
 
     void Awake()
     {
@@ -41,7 +41,15 @@ public class playerMovement : MonoBehaviour
         player = new baseCharacter();
 
         player.Health = 100f;
-        player.name = "Player";
+        player.CharacterName = "Player";
+    }
+
+    void Start()
+    {
+       
+        // GameController.Instance._eagle.gameObject.GetComponent<EagleScript>().eagle.Hit(200);
+
+
     }
 
     void Update()

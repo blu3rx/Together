@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     private static GameController instance;
 
     private GameObject _player;
+    public GameObject _eagle;
     
     
 

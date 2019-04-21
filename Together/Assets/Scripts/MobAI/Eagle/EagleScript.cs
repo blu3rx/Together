@@ -19,12 +19,21 @@ public class EagleScript : MonoBehaviour
     Vector2 VECTOR2characterWhenSpoted;
     Vector3 currentAngle;
     public Sprite SPRITEWhenAttack;
+
+    public baseCharacter eagle; //kalıtım
+
+    void Awake()
+    {
+        eagle = new baseCharacter();
+        eagle.CharacterName = "eagle";
+        eagle.Health = 200;
+        GOCharacter = GameController.Instance.Player;
+    }
     void Start()
     {
 
         GOCharacter = GameController.Instance.Player;
-   
-       
+
         
         StartPositionX = this.transform.position.x;
         StartPositionY = this.transform.position.y;
