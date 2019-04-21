@@ -27,6 +27,7 @@ public class EagleScript : MonoBehaviour
         eagle = new baseCharacter();
         eagle.CharacterName = "eagle";
         eagle.Health = 200;
+        eagle.Damage = 50;
         GOCharacter = GameController.Instance.Player;
     }
     void Start()
@@ -179,6 +180,7 @@ public class EagleScript : MonoBehaviour
                 BOOLReadyForAttack = false;
                 if (ShowDebugLogs)
                 Debug.Log("Çarpışma Gerçekleşti");
+                GOCharacter.GetComponent<playerMovement>().player.Hit(eagle.Damage);
                 smoothFactor = 0.1f;
             }
 
