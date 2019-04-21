@@ -21,7 +21,7 @@ public class EagleScript : MonoBehaviour
     public Sprite SPRITEWhenAttack;
 
     public baseCharacter eagle; //kalıtım
-
+    
     void Awake()
     {
         eagle = new baseCharacter();
@@ -248,4 +248,5 @@ public class EagleScript : MonoBehaviour
         #endregion
 
     }
+   
 }
