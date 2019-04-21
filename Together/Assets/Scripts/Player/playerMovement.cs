@@ -31,7 +31,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
 
-     baseCharacter player;
+    public baseCharacter player;
 
     void Awake()
     {
