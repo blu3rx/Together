@@ -28,7 +28,7 @@ public class EagleScript : MonoBehaviour
         eagle.CharacterName = "eagle";
 
         eagle.Health = 200;
-        eagle.Damage = 100;
+        eagle.Damage = 5;
 
         GOCharacter = GameController.Instance.Player;
     }
@@ -243,13 +243,14 @@ public class EagleScript : MonoBehaviour
         #endregion
         
     }
+
     void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.tag=="Player")
+        if (col.gameObject.tag == "Player")
         {
             col.gameObject.GetComponent<playerMovement>().player.Hit(eagle.Damage);
         }
     }
-    
-   
+
+
 }
