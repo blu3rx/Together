@@ -18,8 +18,7 @@ public class BarbarianScript : MonoBehaviour
         if (BOOLIsJumped)
         {
             RaycastHit2D RaycastForJumpHit = Physics2D.Raycast(transform.position, Vector2.down, RaycastDistance, (1 << LayerMask.NameToLayer("Ground")));
-            Debug.DrawLine(transform.position, (Vector2)transform.position + (Vector2.down * RaycastDistance), Color.red, 1f);
-       
+           
             if (RaycastForJumpHit.collider!=null)
             {
                 BOOLIsJumped = false;

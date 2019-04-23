@@ -154,4 +154,4 @@ MonoBehaviour:
   velocity: 80
   velocityRun: 160
   velocityJump: 200
-  RaycastDistance: 0.25
+  RaycastDistance: 0.28
