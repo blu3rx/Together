@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowDebugLogs: 0
   AreaOfStrolling: 2
-  velocity: 0.1
+  velocity: 1
   velocityForEagleAtack: 0.05
   DistanceOfAttack: 2
   WaitForAgainAttackSecond: 5
