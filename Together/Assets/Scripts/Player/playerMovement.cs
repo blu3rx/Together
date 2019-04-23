@@ -26,14 +26,11 @@ public class playerMovement : MonoBehaviour
 
     bool facingRight = true;
     bool gameOver = false;
-    [SerializeField] bool headHit = false;
     [SerializeField] bool isJump = false;
     [SerializeField] bool grounded = false;
     [SerializeField] bool isIdle = false;
     [SerializeField] bool isWalk = false;
     [SerializeField] bool isRun = false;
-    [SerializeField] bool isCrounch = false;
-    [SerializeField] bool isCrouchWalk = false;
     [SerializeField] bool isPunch = false;
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
