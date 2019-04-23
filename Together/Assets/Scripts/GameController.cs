@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
 
     private GameObject _player;
     public GameObject _eagle;
+
+    private bool _gameOver=false;
     
     
 
@@ -45,6 +47,18 @@ public class GameController : MonoBehaviour
         get
         {
             return _player;
+        }
+    }
+
+    public bool GameOver
+    {
+        get
+        {
+            return _gameOver;
+        }
+        set
+        {
+            _gameOver = value;
         }
     }
 }

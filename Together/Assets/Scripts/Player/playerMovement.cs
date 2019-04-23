@@ -38,6 +38,8 @@ public class playerMovement : MonoBehaviour
 
     public baseCharacter player;
 
+    stateTypes currentState = stateTypes.IDLE;
+
     void Awake()
     {
         anim = GetComponent<Animator>();
@@ -55,6 +57,8 @@ public class playerMovement : MonoBehaviour
     void Update()
     {
         isDead = player.isDead;
+        gameOver = GameController.Instance.GameOver;
+
         if (jumpCooldown > 0)
             jumpCooldown -= Time.deltaTime;
         if (runPunchTimer > 0)
@@ -70,6 +74,8 @@ public class playerMovement : MonoBehaviour
         DrawRay();
         MoveChecker();
         AnimUpdate();
+        AnimChecker();
+
         if(!isSlide)
          Facing();
     }
@@ -115,14 +121,14 @@ public class playerMovement : MonoBehaviour
     void MoveChecker()
     {
         //idle 
-        if (horizontal == 0 && !isRun &&!isJump&&!isPunch)
+        if (horizontal == 0 && !isRun && !isJump && !isPunch)
         {
             isIdle = true;
         }
         else isIdle = false;
 
-        //yürüme 
-        if (horizontal != 0&&!isJump&&!isRun&&!isRunPunch&&!isPunch&&!isSlide)
+        //walk
+        if (horizontal != 0 && !isJump && !isRun && !isRunPunch && !isPunch && !isSlide)
         {
             isIdle = false;
             isWalk = true;
@@ -133,24 +139,25 @@ public class playerMovement : MonoBehaviour
             isWalk = false;
         }
 
-        //koşma
+        //run
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isPunch)
         {
-            if (horizontal != 0&&!isJump)
+            if (horizontal != 0 && !isJump)
             {
                 isRun = true;
                 maxSpeed = maxRunSpeed;
-          
+
             }
-            
-        }else if (Input.GetKeyUp(KeyCode.LeftShift))
+
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isRun = false;
-            if(!isSlide)
+            if (!isSlide)
                 maxSpeed = 1f;
         }
         //run-punch
-        if (Input.GetKeyDown(KeyCode.E)&&isRun&&!isSlide)
+        if (Input.GetKeyDown(KeyCode.E) && isRun && !isSlide)
         {
             isRunPunch = true;
             runPunchTimer = 0.75f;
@@ -162,7 +169,7 @@ public class playerMovement : MonoBehaviour
 
 
         //punch
-        if (Input.GetKeyDown(KeyCode.E)&&!isRunPunch&&!isSlide)
+        if (Input.GetKeyDown(KeyCode.E) && !isRunPunch && !isSlide)
         {
             isPunch = true;
             maxSpeed = 0f;
@@ -182,92 +189,106 @@ public class playerMovement : MonoBehaviour
             isPunch = false;
         }
 
-        //zıplama
-        if (Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) && grounded)
+        //jump
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             isJump = true;
             rbody.AddForce(new Vector2(0, jumpPower * 100));
             jumpCooldown = 0.2f;
-            
+
         }
 
 
         //slide
-        if (Input.GetKeyDown(KeyCode.Q)&&isRun)
+        if (Input.GetKeyDown(KeyCode.Q) && isRun)
         {
             isSlide = true;
-            rbody.AddForce(new Vector2(slidePower* 100, 0));
+            rbody.AddForce(new Vector2(slidePower * 100, 0));
             slideTimer = 0.75f;
             maxSpeed = 3;
-        }else if (slideTimer <= 0)
+        }
+        else if (slideTimer <= 0)
         {
             isSlide = false;
         }
 
+
+    }
+
+   void AnimChecker()
+    {
+        if (isIdle)
+        {
+            currentState = stateTypes.IDLE;
+        }
+        if (isWalk)
+        {
+            currentState = stateTypes.WALK;
+        }
+        if (isRun)
+        {
+            currentState = stateTypes.RUN;
+        }
+        if (isRunPunch)
+        {
+            currentState = stateTypes.RUNPUNCH;
+        }
+        if (isPunch)
+        {
+            currentState = stateTypes.PUNCH;
+        }
+        if (isJump)
+        {
+            currentState = stateTypes.JUMP;
+        }
+        if (isSlide)
+        {
+            currentState = stateTypes.SLİDE;
+        }
+
+    }
+
+    enum stateTypes
+    {
+        IDLE,
+        WALK,
+        RUN,
+        RUNPUNCH,
+        PUNCH,
+        JUMP,
+        SLİDE
     }
 
     void AnimUpdate()
     {
-        if (isIdle)
+        switch (currentState)
         {
-            anim.Play("idle");
-            isRun = false;
+            case stateTypes.IDLE:
+                anim.Play("idle");
+                break;
+            case stateTypes.WALK:
+                anim.Play("walk");
+                break;
+            case stateTypes.RUN:
+                anim.Play("run");
+                break;
+            case stateTypes.RUNPUNCH:
+                anim.Play("run-punch");
+                break;
+            case stateTypes.PUNCH:
+                anim.Play("punch");
+                break;
+            case stateTypes.JUMP:
+                anim.Play("jump");
+                break;
+            case stateTypes.SLİDE:
+                anim.Play("slide");
+                break;
+
+
         }
-
-        if (isWalk&&!isRun)
-        {
-            anim.Play("walk");
-        }
-
-        if (isRun)
-        {
-            isWalk = false;
-            isIdle = false;
-            anim.Play("run");
-        }
-
-        if (isRunPunch)
-        {
-            isRun = false;
-            isIdle = false;
-            isWalk = false;
-            isJump = false;
-            anim.Play("run-punch");
-        }
-
-        if (isPunch)
-        {
-            isRun = false;
-            isIdle = false;
-            isWalk = false;
-            isJump = false;
-            anim.Play("punch");
-        }
-
-        if (isJump)
-        {
-            isRun = false;
-            isIdle = false;
-            isWalk = false;
-            anim.Play("jump");
-        }
-
-        if (isSlide)
-        {
-            isRun = false;
-            isIdle = false;
-            isWalk = false;
-            isJump = false;
-            anim.Play("slide");
-        }
-
-
 
     }
-
-
-
-
 
 
 
