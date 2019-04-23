@@ -195,7 +195,8 @@ public class playerMovement : MonoBehaviour
             isJump = true;
             rbody.AddForce(new Vector2(0, jumpPower * 100));
             jumpCooldown = 0.2f;
-
+            if (isSlide)
+                isSlide = false;
         }
 
 
