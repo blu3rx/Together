@@ -42,6 +42,14 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (_gameOver)
+        {
+            Time.timeScale = 0;
+        }
+    }
+
     public GameObject Player
     {
         get

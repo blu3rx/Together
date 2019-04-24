@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 7257246048620585186}
   - component: {fileID: 7257246048620585189}
   - component: {fileID: 7257246048620585188}
+  - component: {fileID: 1896120577705527592}
   - component: {fileID: 1249662686803554993}
   m_Layer: 8
   m_Name: Player
@@ -218,18 +219,27 @@ MonoBehaviour:
   maxRunSpeed: 3
   jumpPower: 2
   slidePower: 5
-  headHit: 0
   isJump: 0
   grounded: 0
   isIdle: 0
   isWalk: 0
   isRun: 0
-  isCrounch: 0
-  isCrouchWalk: 0
   isPunch: 0
   isSlide: 0
   isRunPunch: 0
   isDead: 0
+--- !u!114 &1896120577705527592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7257246048620585187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc1554bb841c402479e003165d13cb8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &1249662686803554993
 BoxCollider2D:
   m_ObjectHideFlags: 0

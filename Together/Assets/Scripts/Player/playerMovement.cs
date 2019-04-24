@@ -26,8 +26,9 @@ public class playerMovement : MonoBehaviour
 
     bool facingRight = true;
     bool gameOver = false;
-    [SerializeField] bool isJump = false;
+   
     [SerializeField] bool grounded = false;
+    [SerializeField] bool isJump = false;
     [SerializeField] bool isIdle = false;
     [SerializeField] bool isWalk = false;
     [SerializeField] bool isRun = false;
@@ -38,7 +39,7 @@ public class playerMovement : MonoBehaviour
 
     public baseCharacter player;
 
-    stateTypes currentState = stateTypes.IDLE;
+    
 
     void Awake()
     {
@@ -57,7 +58,7 @@ public class playerMovement : MonoBehaviour
     void Update()
     {
         isDead = player.isDead;
-        gameOver = GameController.Instance.GameOver;
+        GameController.Instance.GameOver =gameOver;
 
         if (jumpCooldown > 0)
             jumpCooldown -= Time.deltaTime;
@@ -69,12 +70,14 @@ public class playerMovement : MonoBehaviour
             slideTimer -= Time.deltaTime;
 
 
-
+            GetComponent<animController>().AnimChanger(
+            isJump,isIdle,isWalk,isRun,isPunch,isSlide,isRunPunch,isDead
+            );
 
         DrawRay();
         MoveChecker();
-        AnimUpdate();
-        AnimChecker();
+
+        
 
         if(!isSlide)
          Facing();
@@ -161,6 +164,11 @@ public class playerMovement : MonoBehaviour
         {
             isRunPunch = true;
             runPunchTimer = 0.75f;
+            if (!grounded)
+            {
+                runPunchTimer = 0.75f;
+                isJump=false;
+            }
         }
         else if (runPunchTimer <= 0f)
         {
@@ -176,6 +184,7 @@ public class playerMovement : MonoBehaviour
             if (!grounded)
             {
                 punchTimer = 0.5f;
+                isJump = false;
             }
             else
             {
@@ -212,90 +221,19 @@ public class playerMovement : MonoBehaviour
         {
             isSlide = false;
         }
-
-
-    }
-
-   void AnimChecker()
-    {
-        if (isIdle)
+        if (isDead)
         {
-            currentState = stateTypes.IDLE;
-        }
-        if (isWalk)
-        {
-            currentState = stateTypes.WALK;
-        }
-        if (isRun)
-        {
-            currentState = stateTypes.RUN;
-        }
-        if (isRunPunch)
-        {
-            currentState = stateTypes.RUNPUNCH;
-        }
-        if (isPunch)
-        {
-            currentState = stateTypes.PUNCH;
-        }
-        if (isJump)
-        {
-            currentState = stateTypes.JUMP;
-        }
-        if (isSlide)
-        {
-            currentState = stateTypes.SLİDE;
-        }
-
-    }
-
-    enum stateTypes
-    {
-        IDLE,
-        WALK,
-        RUN,
-        RUNPUNCH,
-        PUNCH,
-        JUMP,
-        SLİDE
-    }
-
-    void AnimUpdate()
-    {
-        switch (currentState)
-        {
-            case stateTypes.IDLE:
-                anim.Play("idle");
-                break;
-            case stateTypes.WALK:
-                anim.Play("walk");
-                break;
-            case stateTypes.RUN:
-                anim.Play("run");
-                break;
-            case stateTypes.RUNPUNCH:
-                anim.Play("run-punch");
-                break;
-            case stateTypes.PUNCH:
-                anim.Play("punch");
-                break;
-            case stateTypes.JUMP:
-                anim.Play("jump");
-                break;
-            case stateTypes.SLİDE:
-                anim.Play("slide");
-                break;
-
+            isJump = false;
+            isPunch = false;
+            isRun = false;
+            isIdle = false;
+            isWalk = false;
+            isRunPunch = false;
+            isSlide = false;
 
         }
 
     }
-
-
-
-
-
-
 
     void Facing()
     {
