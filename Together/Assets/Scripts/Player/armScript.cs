@@ -11,5 +11,11 @@ public class armScript : MonoBehaviour
             Debug.Log("KartalaVuruldu");
            col.gameObject.GetComponent<EagleScript>().eagle.Hit(GameController.Instance.Player.GetComponent<playerMovement>().player.Damage);
         }
+        if (col.gameObject.tag =="barbarianTag")
+        {
+            col.gameObject.GetComponent<BarbarianScript>().barbarianKalitim.Hit(GameController.Instance.Player.GetComponent<playerMovement>().player.Damage);
+            col.gameObject.GetComponent<BarbarianScript>().HitFunction();
+       
+        }
     }
 }

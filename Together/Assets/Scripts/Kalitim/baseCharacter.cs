@@ -48,14 +48,12 @@ public class baseCharacter
 
     public void Hit (float hit)
     {
+
+        Debug.Log(characterName + ": Kalan can: " + health.ToString());
         Health-=hit;
         if (health <= 0)
         {
-
-           // Debug.Log(characterName + "Öldü pij");
-
             isDead =  true;
-
         }
 
     }
