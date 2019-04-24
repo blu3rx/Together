@@ -12,32 +12,33 @@ public class playerMovement : MonoBehaviour
 
     public float moveSpeed = 5f;
     public float maxSpeed = 5f;
-    public float runSpeed = 10;
     public float maxRunSpeed = 3;
-    public float jumpPower = 100f;
+    public float jumpPower = 2f;
+    public float slidePower = 3f;
+
+    private float slideTimer = 0f;
+    private float punchTimer = 0f;
+    private float runPunchTimer=0f;
     private float jumpCooldown = 0f;
-    private float horizontal = 0f;
-    private float punchCooldown = 0f;
-    private float runPunchCooldown = 0f;
-    private float deadTimer;
+    private float horizontal;
+
 
 
     bool facingRight = true;
     bool gameOver = false;
-    [SerializeField] bool headHit = false;
-    [SerializeField] bool jumped = false;
+    [SerializeField] bool isJump = false;
     [SerializeField] bool grounded = false;
     [SerializeField] bool isIdle = false;
     [SerializeField] bool isWalk = false;
     [SerializeField] bool isRun = false;
-    [SerializeField] bool isCrounch = false;
-    [SerializeField] bool isCrouchWalk = false;
     [SerializeField] bool isPunch = false;
     [SerializeField] bool isSlide = false;
     [SerializeField] bool isRunPunch = false;
     [SerializeField] bool isDead = false;
 
-     public baseCharacter player;
+    public baseCharacter player;
+
+    stateTypes currentState = stateTypes.IDLE;
 
     void Awake()
     {
@@ -52,204 +53,62 @@ public class playerMovement : MonoBehaviour
         gameOver = false;
     }
 
-    void Start()
-    {
-       
-        // GameController.Instance._eagle.gameObject.GetComponent<EagleScript>().eagle.Hit(200);
-
-
-    }
 
     void Update()
     {
         isDead = player.isDead;
+        gameOver = GameController.Instance.GameOver;
+
         if (jumpCooldown > 0)
             jumpCooldown -= Time.deltaTime;
-        if (punchCooldown > 0)
-            punchCooldown -= Time.deltaTime;
-        if (runPunchCooldown > 0)
-            runPunchCooldown -= Time.deltaTime;
-        if (deadTimer > 0)
-            deadTimer -= Time.deltaTime;
+        if (runPunchTimer > 0)
+            runPunchTimer -= Time.deltaTime;
+        if (punchTimer > 0)
+            punchTimer -= Time.deltaTime;
+        if (slideTimer > 0)
+            slideTimer -= Time.deltaTime;
 
 
+
+
+        DrawRay();
+        MoveChecker();
+        AnimUpdate();
+        AnimChecker();
+
+        if(!isSlide)
+         Facing();
+    }
+
+
+    void FixedUpdate()
+    {
+        FixedInputUpdate();
+    }
+
+
+    void DrawRay()
+    {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.31f, (1 << 9));
         Debug.DrawLine(transform.position, (Vector2)transform.position + (Vector2.down * 0.31f), Color.red, 1f);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.up, 0.31f, (1 << 9));
-        Debug.DrawLine(transform.position, (Vector2)transform.position + (Vector2.up * 0.31f), Color.yellow, 1f);
+        //RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.up, 0.31f, (1 << 9));
+        //Debug.DrawLine(transform.position, (Vector2)transform.position + (Vector2.up * 0.31f), Color.yellow, 1f);
 
         if (hit.collider != null && jumpCooldown <= 0)
         {
             grounded = true;
-            jumped = false;
+            isJump = false;
         }
         else grounded = false;
-
-        if (hit2.collider != null)
-        {
-            headHit = true;
-        }
-        else headHit = false;
-
-
-
-        InputUpdate();
-        CheckAnim();
-        UpdateAnims();
-
-
-        if(player.isDead)
-            Dead();
-        if (gameOver && deadTimer < 0.5f)
-        {
-            player.isDead = false; 
-        }
-        if (!gameOver)
-        {
-            Time.timeScale = 1;
-        }
-   
-
-
-    
     }
 
-    void FixedUpdate()
-    {
 
-        FixedInputUpdate();
-        Facing();
-
-        
-
-
-    }
-
-    void InputUpdate()
-    {
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && grounded && jumpCooldown <= 0) //zıplama
-        {
-            jumped = true;
-            jumpCooldown = 0.3f;
-            rbody.AddForce(new Vector2(0, jumpPower * 100));
-
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))//koşma
-        {
-            isRun = true;
-
-
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            isRun = false;
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)) //yumruk
-        {
-            isPunch = true;
-            if (!grounded)
-            {
-                punchCooldown = 0.5f;
-            }
-            else
-            {
-                punchCooldown = 0.75f;
-            }
-           
-
-        }
-        else if (punchCooldown <= 0)
-        {
-            isPunch = false;
-        }
-
-
-        if (Input.GetButtonDown("Crouch") && !jumped)//eğilme
-        {
-            isCrounch = true;
-            isWalk = false;
-
-            if (horizontal != 0)
-            {
-                isCrouchWalk = true;
-                isCrounch = false;
-                maxSpeed = 0.5f;
-            }
-
-        }
-        else if (Input.GetButtonUp("Crouch"))
-        {
-            isCrounch = false;
-            isCrouchWalk = false;
-
-        }
-        if (isCrounch)
-        {
-            if (horizontal != 0 )
-            {
-                isCrouchWalk = true;
-                maxSpeed = 0.5f;
-                isCrounch = false;
-            }
-            if (horizontal == 0)
-            {
-                isCrouchWalk = false;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q) && !jumped && isRun)//kayma
-        {
-            
-            isSlide = true;
-        } else if (Input.GetKeyUp(KeyCode.Q))
-        {
-             isSlide = false;
-            
-           
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && isRun)//koşarken yumruk
-        {
-            isRunPunch = true;
-            runPunchCooldown = 0.75f;
-        }
-        else if (runPunchCooldown <= 0)
-        {
-            isRunPunch = false;
-        }
-
-    }
 
     void FixedInputUpdate()
     {
-
-        horizontal = Input.GetAxis("Horizontal");
-        rbody.velocity = new Vector2(horizontal * moveSpeed,rbody.velocity.y);
-
-
-
-
-        if (isRun)
-        {
-            maxSpeed = maxRunSpeed;
-            rbody.AddForce(new Vector2(horizontal * runSpeed, 0));
-        }
-        if (isSlide)
-        {
-            maxSpeed = 2;
-            rbody.AddForce(new Vector2(horizontal * runSpeed, 0));
-        }
-        if (isPunch)
-        {
-            maxSpeed = 0;
-            
-        }
+        if(!isSlide)
+            horizontal = Input.GetAxisRaw("Horizontal");
+        rbody.velocity = new Vector2(horizontal * moveSpeed, rbody.velocity.y);
 
         if (Mathf.Abs(rbody.velocity.x) > maxSpeed)
         {
@@ -259,134 +118,182 @@ public class playerMovement : MonoBehaviour
     }
 
 
-    void CheckAnim()
+    void MoveChecker()
     {
-        if (horizontal == 0 && !jumped&&!isDead)// idle a geçiş
+        //idle 
+        if (horizontal == 0 && !isRun && !isJump && !isPunch)
         {
             isIdle = true;
-            isWalk = false;
-            
         }
-        if (horizontal != 0 && !jumped && !isRun && !isCrouchWalk)// yürümeye geçiş
+        else isIdle = false;
+
+        //walk
+        if (horizontal != 0 && !isJump && !isRun && !isRunPunch && !isPunch && !isSlide)
         {
-            maxSpeed = 1;
+            isIdle = false;
             isWalk = true;
-            isIdle = false;
+            maxSpeed = 1f;
         }
-        if (isCrounch)//eğilmeye geçiş
+        else
         {
-            isIdle = false;
+            isWalk = false;
+        }
+
+        //run
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isPunch)
+        {
+            if (horizontal != 0 && !isJump)
+            {
+                isRun = true;
+                maxSpeed = maxRunSpeed;
+
+            }
+
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
             isRun = false;
-            isWalk = false;
+            if (!isSlide)
+                maxSpeed = 1f;
         }
-        if (isRun)//koşmaya geçiş
+        //run-punch
+        if (Input.GetKeyDown(KeyCode.E) && isRun && !isSlide)
         {
-            isIdle = false;
-            isWalk = false;
-            isCrounch = false;
-            isCrouchWalk = false;
+            isRunPunch = true;
+            runPunchTimer = 0.75f;
         }
-        if (jumped)//zıplama
+        else if (runPunchTimer <= 0f)
         {
-            isIdle = false;
-            isWalk = false;
-            isRun = false;
-            isCrounch = false;
-            isCrouchWalk = false;
-            isSlide = false;
-        }
-        if (isCrouchWalk)//eğilerek yürüme
-        {
-            isIdle = false;
-        }
-        if (isPunch)//yumruk
-        {
-            isIdle = false;
-            isCrouchWalk = false;
-            isCrounch = false;
-            isRun = false;
-            isWalk = false;
-            jumped = false;
-        }
-        if (isSlide)//kayma
-        {
-            isIdle = false;
-            isCrouchWalk = false;
-            isCrounch = false;
-            isRun = false;
-            isWalk = false;
-        }
-        if (isRunPunch)//koşarak yumruk
-        {
-            isIdle = false;
-            isCrouchWalk = false;
-            isCrounch = false;
-            isRun = false;
-            isWalk = false;
-            isPunch = false;
-        }
-        if (isDead)
-        {
-            jumped = false;
-            isIdle = false;
-            isWalk = false;
-            isRun = false;
-            isCrounch = false;
-            isCrouchWalk = false;
-            isPunch = false;
             isRunPunch = false;
-            isSlide = false;
         }
 
-  
 
+        //punch
+        if (Input.GetKeyDown(KeyCode.E) && !isRunPunch && !isSlide)
+        {
+            isPunch = true;
+            maxSpeed = 0f;
+            if (!grounded)
+            {
+                punchTimer = 0.5f;
+            }
+            else
+            {
+                punchTimer = 0.75f;
+            }
+
+
+        }
+        else if (punchTimer <= 0)
+        {
+            isPunch = false;
+        }
+
+        //jump
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+            isJump = true;
+            rbody.AddForce(new Vector2(0, jumpPower * 100));
+            jumpCooldown = 0.2f;
+            if (isSlide)
+                isSlide = false;
+        }
+
+
+        //slide
+        if (Input.GetKeyDown(KeyCode.Q) && isRun)
+        {
+            isSlide = true;
+            rbody.AddForce(new Vector2(slidePower * 100, 0));
+            slideTimer = 0.75f;
+            maxSpeed = 3;
+        }
+        else if (slideTimer <= 0)
+        {
+            isSlide = false;
+        }
 
 
     }
 
-    void UpdateAnims()
+   void AnimChecker()
     {
-
-        if (isIdle)//idle anim
+        if (isIdle)
         {
-            anim.Play("idle");
+            currentState = stateTypes.IDLE;
         }
-        if (isWalk)//walk anim
+        if (isWalk)
         {
-            anim.Play("walk");
+            currentState = stateTypes.WALK;
         }
-        if (jumped)
+        if (isRun)
         {
-
-            anim.Play("jump");
-        }
-        if (isRun)//koşmaya geçiş
-        {
-
-            anim.Play("run");
-        }
-        if (isCrounch)//eğilme
-        {
-            anim.Play("crouch");
-        }
-        if (isCrouchWalk)//eğilerek yürüme
-        {
-            anim.Play("crouch-walk");
-        }
-        if (isPunch)//yumruk
-        {
-            anim.Play("punch");
-        }
-        if (isSlide)//kayma
-        {
-            anim.Play("slide");
+            currentState = stateTypes.RUN;
         }
         if (isRunPunch)
         {
-            anim.Play("run-punch");
+            currentState = stateTypes.RUNPUNCH;
+        }
+        if (isPunch)
+        {
+            currentState = stateTypes.PUNCH;
+        }
+        if (isJump)
+        {
+            currentState = stateTypes.JUMP;
+        }
+        if (isSlide)
+        {
+            currentState = stateTypes.SLİDE;
         }
 
     }
+
+    enum stateTypes
+    {
+        IDLE,
+        WALK,
+        RUN,
+        RUNPUNCH,
+        PUNCH,
+        JUMP,
+        SLİDE
+    }
+
+    void AnimUpdate()
+    {
+        switch (currentState)
+        {
+            case stateTypes.IDLE:
+                anim.Play("idle");
+                break;
+            case stateTypes.WALK:
+                anim.Play("walk");
+                break;
+            case stateTypes.RUN:
+                anim.Play("run");
+                break;
+            case stateTypes.RUNPUNCH:
+                anim.Play("run-punch");
+                break;
+            case stateTypes.PUNCH:
+                anim.Play("punch");
+                break;
+            case stateTypes.JUMP:
+                anim.Play("jump");
+                break;
+            case stateTypes.SLİDE:
+                anim.Play("slide");
+                break;
+
+
+        }
+
+    }
+
+
+
+
 
 
 
@@ -405,23 +312,6 @@ public class playerMovement : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-
-    void Dead()
-    {
-        anim.Play("dead");
-        StartCoroutine(DeadTimer());
-    }
-    IEnumerator DeadTimer()
-    {
-        deadTimer = 1f;
-        yield return new WaitForSeconds(1);
-        gameOver = true;
-        Time.timeScale = 0f;
-       
-       
-    }
-
-
 
 
 }

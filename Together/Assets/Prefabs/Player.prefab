@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1591244968053192225}
   m_Layer: 0
   m_Name: Arm
-  m_TagString: Untagged
+  m_TagString: playerPunch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,11 +215,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   maxSpeed: 1
-  runSpeed: 10
   maxRunSpeed: 3
   jumpPower: 2
+  slidePower: 5
   headHit: 0
-  jumped: 0
+  isJump: 0
   grounded: 0
   isIdle: 0
   isWalk: 0
@@ -229,6 +229,7 @@ MonoBehaviour:
   isPunch: 0
   isSlide: 0
   isRunPunch: 0
+  isDead: 0
 --- !u!61 &1249662686803554993
 BoxCollider2D:
   m_ObjectHideFlags: 0
