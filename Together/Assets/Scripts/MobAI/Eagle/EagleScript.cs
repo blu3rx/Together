@@ -250,6 +250,15 @@ public class EagleScript : MonoBehaviour
         {
             col.gameObject.GetComponent<playerMovement>().player.Hit(eagle.Damage);
         }
+        else
+        {
+            BOOLAfterHit = true;
+            gameObject.GetComponent<Animator>().enabled = true;
+            BOOLReadyForAttack = false;
+            if (ShowDebugLogs)
+                Debug.Log("Duvara Çarptı");
+            smoothFactor = 0.1f;
+        }
     }
 
 

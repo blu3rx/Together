@@ -115,13 +115,13 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &512261460126418420
 CapsuleCollider2D:
@@ -153,5 +153,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 80
   velocityRun: 160
-  velocityJump: 200
+  velocityJump: 300
   RaycastDistance: 0.28

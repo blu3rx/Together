@@ -15,6 +15,11 @@ public class BarbarianScript : MonoBehaviour
     
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            gameObject.GetComponent<Animator>().SetBool("Attack", true);
+        }
+      
         if (BOOLIsJumped)
         {
             RaycastHit2D RaycastForJumpHit = Physics2D.Raycast(transform.position, Vector2.down, RaycastDistance, (1 << LayerMask.NameToLayer("Ground")));
@@ -35,25 +40,6 @@ public class BarbarianScript : MonoBehaviour
             BOOLIsJumped = true;
             gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, velocityJump));
         }
-        if (Input.GetKey(KeyCode.G))
-        {
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
-            gameObject.GetComponent<Animator>().SetBool("Idle", false);
-            if (Input.GetKey(KeyCode.Tab))
-            {
-                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Time.deltaTime * -velocityRun, gameObject.GetComponent<Rigidbody2D>().velocity.y);
-                gameObject.GetComponent<Animator>().SetBool("Run", true);
-                gameObject.GetComponent<Animator>().SetBool("Walk", false);
-
-            }
-
-            else
-            {
-                gameObject.GetComponent<Animator>().SetBool("Walk", true);
-                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Time.deltaTime * -velocity, gameObject.GetComponent<Rigidbody2D>().velocity.y);
-            }
-
-        }
         if (Input.GetKey(KeyCode.J))
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
@@ -70,6 +56,25 @@ public class BarbarianScript : MonoBehaviour
             {
                 gameObject.GetComponent<Animator>().SetBool("Walk", true);
                 gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Time.deltaTime * velocity, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+            }
+
+        }
+        if (Input.GetKey(KeyCode.G))
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            gameObject.GetComponent<Animator>().SetBool("Idle", false);
+            if (Input.GetKey(KeyCode.Tab))
+            {
+                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Time.deltaTime * -velocityRun, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+                gameObject.GetComponent<Animator>().SetBool("Run", true);
+                gameObject.GetComponent<Animator>().SetBool("Walk", false);
+
+            }
+
+            else
+            {
+                gameObject.GetComponent<Animator>().SetBool("Walk", true);
+                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Time.deltaTime * -velocity, gameObject.GetComponent<Rigidbody2D>().velocity.y);
             }
 
         }
