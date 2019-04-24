@@ -190,7 +190,7 @@ public class playerMovement : MonoBehaviour
         }
 
         //jump
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) && grounded)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && grounded || Input.GetKeyDown(KeyCode.W) && grounded || Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             isJump = true;
             rbody.AddForce(new Vector2(0, jumpPower * 100));
