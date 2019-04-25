@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
         if (instance != null)
             Destroy(gameObject);
 
-        _player = GameObject.FindGameObjectWithTag("Player");
+        
 
 
     }
@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
+            _player = GameObject.FindGameObjectWithTag("Player");
             return _player;
         }
     }
