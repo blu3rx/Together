@@ -7,6 +7,7 @@ TagManager:
   - playerPunch
   - mobTag
   - eagleTag
+  - barbarianTag
   layers:
   - Default
   - TransparentFX
