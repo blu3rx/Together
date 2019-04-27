@@ -8,7 +8,7 @@ public class BarbarianSwordScript : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            Debug.Log("Playere Vuruldu");
+           
             col.gameObject.GetComponent<playerMovement>().player.Hit(gameObject.transform.root.GetComponent<BarbarianScript>().barbarianKalitim.Damage);
         }
     }
