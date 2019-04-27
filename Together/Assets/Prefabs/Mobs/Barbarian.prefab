@@ -131,8 +131,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1350898797
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5c4a415cbd28a95408880fcd29f81d7d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -224,13 +224,16 @@ MonoBehaviour:
   BOOLDirection: 0
   ChangeDirection: 0
   BOOLWhenChangeDirection: 0
+  BOOLWhenATTACKChangeDirection: 0
   BOOLAiJump: 0
   BOOLAiAttack: 0
   BOOLAiLeft: 0
   BOOLAiRight: 0
   BOOLAiRun: 0
   DistanceOfAttack: 3
-  DistanceOfAttackAraligi: 0.4
+  DistanceOfAttackAraligi: 0.43
+  BOOLPlayereYaklas: 0
+  BOOLPlayerDirection: 0
 --- !u!1 &6624992429447417098
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +245,7 @@ GameObject:
   - component: {fileID: 1114364625520220382}
   - component: {fileID: 6401338257409535223}
   - component: {fileID: 1109826707652902552}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,6 +8,7 @@ TagManager:
   - mobTag
   - eagleTag
   - barbarianTag
+  - groundTag
   layers:
   - Default
   - TransparentFX
