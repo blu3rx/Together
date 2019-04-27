@@ -9,6 +9,8 @@ TagManager:
   - eagleTag
   - barbarianTag
   - groundTag
+  - topTag
+  - opossumTag
   layers:
   - Default
   - TransparentFX

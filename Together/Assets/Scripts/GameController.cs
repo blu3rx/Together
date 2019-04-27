@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     private GameObject _player;
     public GameObject _eagle;
+    public GameObject _opossum;
 
     private bool _gameOver = false;
 
@@ -55,6 +56,14 @@ public class GameController : MonoBehaviour
         {
             _player = GameObject.FindGameObjectWithTag("Player");
             return _player;
+        }
+    }
+    public GameObject Opossum
+    {
+        get
+        {
+            _opossum = GameObject.FindGameObjectWithTag("opossumTag");
+            return _opossum;
         }
     }
 

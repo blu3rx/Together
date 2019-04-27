@@ -31,7 +31,7 @@ public class opossumBrain : MonoBehaviour
 
         opossum = new baseCharacter();
         opossum.Damage = 500;
-        opossum.Health = 100;
+        opossum.Health = 10;
         opossum.CharacterName = "Opposum";
         
     }
@@ -70,6 +70,13 @@ public class opossumBrain : MonoBehaviour
             }
                 
         }
+
+        if (opossum.isDead)
+        {
+            Debug.Log("girdim");
+            Destroy(gameObject);
+        }
+        
     }
 
     void Walk()
@@ -96,8 +103,9 @@ public class opossumBrain : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.tag=="Player")
+        if (col.gameObject.tag == "Player")
             col.gameObject.GetComponent<playerMovement>().player.Hit(opossum.Damage);
+
     }
 
 
