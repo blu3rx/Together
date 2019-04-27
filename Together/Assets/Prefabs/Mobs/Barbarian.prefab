@@ -60,6 +60,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faea24109d2c97f48b36b40f4a867639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1693105377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693105378}
+  - component: {fileID: 1693105380}
+  - component: {fileID: 1693105379}
+  m_Layer: 0
+  m_Name: AIJumpDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1693105378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693105377}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 512261460126418421}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1693105380
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693105377}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.13934326, y: -0.20652384}
+  serializedVersion: 2
+  m_Radius: 0.029123366
+--- !u!114 &1693105379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693105377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ec83b98d9484fc4a8e094c4862a2225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &512261460126418416
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +154,7 @@ Transform:
   m_Children:
   - {fileID: 155702601}
   - {fileID: 1114364625520220382}
+  - {fileID: 1693105378}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -176,7 +237,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10000
+  m_Mass: 10
   m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -215,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 80
   velocityRun: 160
-  velocityJump: 250
+  velocityJump: 0.25
   TimeOfChangeDirection: 2
   TimeOfChangeDirectionNow: 0
   RaycastDistance: 0.28
@@ -230,6 +291,7 @@ MonoBehaviour:
   BOOLAiLeft: 0
   BOOLAiRight: 0
   BOOLAiRun: 0
+  BOOLAiAttackAble: 0
   DistanceOfAttack: 3
   DistanceOfAttackAraligi: 0.43
   BOOLPlayereYaklas: 0
