@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-   
+
 
     private static GameController instance;
 
     private GameObject _player;
     public GameObject _eagle;
 
-    private bool _gameOver=false;
-    
-    
+    private bool _gameOver = false;
+
+    public float playerHealth = 100;
+
 
     public void Awake()
     {
-        
+
         if (instance != null)
             Destroy(gameObject);
-
-        
 
 
     }
