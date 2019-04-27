@@ -65,7 +65,9 @@ public class BarbarianScript : MonoBehaviour
     void Awake()
     {
         barbarianKalitim = new baseCharacter();
+
         barbarianKalitim.Damage = 5f;
+
         barbarianKalitim.Health = 500f;
         barbarianKalitim.CharacterName = "barbarian";
         BOOLAiRightGETSET = false;
