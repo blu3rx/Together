@@ -139,6 +139,7 @@ public class BarbarianScript : MonoBehaviour
             BOOLAiLeftGETSET = false;
             BOOLAiRightGETSET = false;
         }
+   
         if (ChangeDirection)
         {
             TimeOfChangeDirectionNow += Time.deltaTime;
@@ -201,7 +202,7 @@ public class BarbarianScript : MonoBehaviour
 
         if (BOOLAiAttack && !barbarianKalitim.isDead && !BOOLIsAttack)//Attack
         {
-
+            
             FNBarbarianAttack();
 
         }
@@ -286,13 +287,14 @@ public class BarbarianScript : MonoBehaviour
                 BOOLPlayerDirection = false;
         } 
         if (Mathf.Abs(Mathf.Abs(GOPlayer.transform.position.x) - Mathf.Abs(transform.position.x)) <= DistanceOfAttack 
-            && (DistanceOfAttackAraligi < Mathf.Abs(Mathf.Abs(GOPlayer.transform.position.x) - Mathf.Abs(transform.position.x))||(0.6f > Mathf.Abs(Mathf.Abs(GOPlayer.transform.position.y) - Mathf.Abs(transform.position.y)))))//Player Atack Bölgesinde mi? || Çok da yaklaşma. SAldırı Payı bırak
+            && (DistanceOfAttackAraligi < Mathf.Abs(Mathf.Abs(GOPlayer.transform.position.x) - Mathf.Abs(transform.position.x))||(0.4f > Mathf.Abs(Mathf.Abs(GOPlayer.transform.position.y) - Mathf.Abs(transform.position.y)))))//Player Atack Bölgesinde mi? || Çok da yaklaşma. SAldırı Payı bırak
         {
+            if (!BOOLAiAttack) { 
             if (GOPlayer.transform.position.x >= transform.position.x)//Player BArbarianın hangi tarafında kalıyor?
                 BOOLAiRightGETSET = true;
             else
                 BOOLAiLeftGETSET = true;
-           
+            }
             
 
             if (!ChangeDirection)
@@ -333,7 +335,8 @@ public class BarbarianScript : MonoBehaviour
             }
             BOOLWhenChangeDirection = BOOLPlayerDirection;
             if (BOOLAiAttackAble)
-            BOOLAiAttack = true;
+             BOOLAiAttack = true;
+           
         }
 
         //--
