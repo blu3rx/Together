@@ -141,7 +141,7 @@ public class BarbarianScript : MonoBehaviour
                 ScaleOfStart = transform.localScale;
                 ScaleOfStart.x *= -1;
                 transform.localScale = ScaleOfStart;
-                gameObject.transform.GetChild(1).gameObject.active = false;
+               transform.GetChild(1).gameObject.active = false;
             }
 
         }
