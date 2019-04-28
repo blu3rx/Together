@@ -215,12 +215,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxSpeed: 1
+  maxSpeed: 1.5
   maxRunSpeed: 3
   jumpPower: 2
   slidePower: 5
-  isJump: 0
   grounded: 0
+  isJump: 0
   isIdle: 0
   isWalk: 0
   isRun: 0

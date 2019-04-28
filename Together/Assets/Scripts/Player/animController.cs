@@ -65,6 +65,7 @@ public class animController : MonoBehaviour
         if (isDead)
         {
             currentState = stateTypes.DEAD;
+
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.3f)
             {
                 GameController.Instance.GameOver = true;

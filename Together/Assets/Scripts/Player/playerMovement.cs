@@ -43,14 +43,14 @@ public class playerMovement : MonoBehaviour
 
     void Awake()
     {
+        
         anim = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
 
         player = new baseCharacter();
-
-        player.Health = 100f;
-        player.Damage = 200f;
         player.CharacterName = "Player";
+
+
         gameOver = false;
     }
 
@@ -81,6 +81,8 @@ public class playerMovement : MonoBehaviour
 
         if(!isSlide)
          Facing();
+
+        Debug.Log(player.Health);
     }
 
 
@@ -143,8 +145,9 @@ public class playerMovement : MonoBehaviour
         }
 
         //run
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isPunch)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            isPunch = false;
             if (horizontal != 0 && !isJump)
             {
                 isRun = true;
@@ -159,6 +162,7 @@ public class playerMovement : MonoBehaviour
             if (!isSlide)
                 maxSpeed = 1f;
         }
+      
         //run-punch
         if (Input.GetKeyDown(KeyCode.E) && isRun && !isSlide)
         {
@@ -183,7 +187,7 @@ public class playerMovement : MonoBehaviour
             maxSpeed = 0f;
             if (!grounded)
             {
-                punchTimer = 0.5f;
+                punchTimer = 0.3f;
                 isJump = false;
             }
             else
@@ -249,6 +253,31 @@ public class playerMovement : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+
+    public float Health
+    {
+        get
+        {
+            return player.Health;
+        }
+        set
+        {
+            player.Health = value;
+        }
+    }
+
+    public float Damage
+    {
+        get
+        {
+            return player.Damage;
+        }
+        set
+        {
+            player.Damage = value;
+        }
     }
 
 }

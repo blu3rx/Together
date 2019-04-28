@@ -9,12 +9,22 @@ public class GameController : MonoBehaviour
     private static GameController instance;
 
     private GameObject _player;
-    public GameObject _eagle;
-    public GameObject _opossum;
+    private GameObject _eagle;
+    private GameObject _opossum;
+    private GameObject _wizard;
 
     private bool _gameOver = false;
 
-    public float playerHealth = 100;
+
+    [Header("Player")]
+    public float playerHealth = 100f;
+    public float playerDamage = 20f;
+    [Header("Wizard")]
+    public float wizardHealth = 100f;
+    public float wizardDamage = 30f;
+    [Header("Opossum")]
+    public float opossumHealth = 10f;
+    public float opossumDamage = 110f;
 
 
     public void Awake()
@@ -23,6 +33,24 @@ public class GameController : MonoBehaviour
         if (instance != null)
             Destroy(gameObject);
 
+
+
+
+    }
+    private void Start()
+    {
+        Player.GetComponent<playerMovement>().Health = playerHealth;
+        Player.GetComponent<playerMovement>().Damage = playerDamage;
+
+        Wizard.GetComponent<wizardBrain>().Health = wizardHealth;
+        Wizard.GetComponent<wizardBrain>().Damage = wizardDamage;
+
+        if (Opossum != null)
+        {
+            Opossum.GetComponent<opossumBrain>().Health = opossumHealth;
+            Opossum.GetComponent<opossumBrain>().Damage = opossumDamage;
+
+        }
 
     }
 
@@ -48,6 +76,8 @@ public class GameController : MonoBehaviour
         {
             Time.timeScale = 0;
         }
+
+
     }
 
     public GameObject Player
@@ -66,6 +96,22 @@ public class GameController : MonoBehaviour
             return _opossum;
         }
     }
+    public GameObject Wizard
+    {
+        get
+        {
+            _wizard = GameObject.FindGameObjectWithTag("wizardTag");
+            return _wizard;
+        }
+    }
+    public GameObject Eagle
+    {
+        get
+        {
+            _eagle = GameObject.FindGameObjectWithTag("eagleTag");
+            return _eagle;
+        }
+    }
 
     public bool GameOver
     {
@@ -78,4 +124,6 @@ public class GameController : MonoBehaviour
             _gameOver = value;
         }
     }
+
+    
 }

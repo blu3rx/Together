@@ -16,7 +16,7 @@ public class opossumBrain : MonoBehaviour
 
     private float walkTimer = -0.5f;
     public float walkTime = 0.5f;
-    public float waitDistance=1f;
+    public float waitDistance = 1f;
     public float walkSpeed = 0.5f;
 
     [SerializeField] private bool walkLeft = false;
@@ -30,21 +30,19 @@ public class opossumBrain : MonoBehaviour
         player = GameController.Instance.Player;
 
         opossum = new baseCharacter();
-        opossum.Damage = 500;
-        opossum.Health = 10;
         opossum.CharacterName = "Opposum";
-        
+
     }
 
     private void Update()
     {
         if (walkTimer >= 0)
             walkTimer -= Time.deltaTime;
-       //  Debug.Log(walkLeft);
+        //  Debug.Log(walkLeft);
 
-    
 
-        if (Mathf.Abs( player.transform.position.x - transform.position.x)> waitDistance)
+
+        if (Mathf.Abs(player.transform.position.x - transform.position.x) > waitDistance)
         {
             currentState = stateTypes.WAIT;
             rbody.velocity = new Vector2(0, rbody.velocity.y);
@@ -55,7 +53,7 @@ public class opossumBrain : MonoBehaviour
             currentState = stateTypes.WALK;
         }
 
-      //  Debug.Log(currentState);
+        //  Debug.Log(currentState);
 
         if (currentState == stateTypes.WALK)
         {
@@ -68,7 +66,7 @@ public class opossumBrain : MonoBehaviour
                 else if (!walkLeft)
                     walkLeft = true;
             }
-                
+
         }
 
         if (opossum.isDead)
@@ -76,22 +74,24 @@ public class opossumBrain : MonoBehaviour
             Debug.Log("girdim");
             Destroy(gameObject);
         }
-        
+
     }
 
     void Walk()
     {
         anim.Play("walk");
 
-        if (walkLeft) {
+        if (walkLeft)
+        {
             rbody.velocity = new Vector2(-walkSpeed, rbody.velocity.y);
             rendr.flipX = false;
         }
-        else{
+        else
+        {
             rbody.velocity = new Vector2(walkSpeed, rbody.velocity.y);
             rendr.flipX = true;
         }
-           
+
 
     }
 
@@ -108,5 +108,27 @@ public class opossumBrain : MonoBehaviour
 
     }
 
+    public float Health
+    {
+        get
+        {
+            return opossum.Health;
+        }
+        set
+        {
+            opossum.Health = value;
+        }
+    }
+    public float Damage
+    {
+        get
+        {
+            return opossum.Damage;
+        }
+        set
+        {
+            opossum.Damage = value;
+        }
+    }
 
 }

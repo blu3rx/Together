@@ -11,6 +11,7 @@ TagManager:
   - groundTag
   - topTag
   - opossumTag
+  - wizardTag
   layers:
   - Default
   - TransparentFX

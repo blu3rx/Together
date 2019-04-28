@@ -23,5 +23,10 @@ public class armScript : MonoBehaviour
             col.gameObject.GetComponent<BarbarianScript>().HitFunction();
        
         }
+        if (col.gameObject.tag == "wizardTag")
+        {
+            col.gameObject.GetComponent<wizardBrain>().wizard .Hit(_player.GetComponent<playerMovement>().player.Damage);
+
+        }
     }
 }

@@ -43,4 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224a04fb96f5463449ed6c1a2ddbb0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eagle: {fileID: 0}
+  playerHealth: 100
+  playerDamage: 20
+  wizardHealth: 500
+  wizardDamage: 30

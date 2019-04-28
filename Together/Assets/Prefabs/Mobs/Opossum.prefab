@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkTime: 5
   waitDistance: 2.5
-  walkSpeed: 0
+  walkSpeed: 0.5
   walkLeft: 1
 --- !u!70 &336997971
 CapsuleCollider2D:
@@ -153,5 +153,5 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.06}
-  m_Size: {x: 0.36, y: 0.1}
+  m_Size: {x: 0.36, y: 0.14}
   m_Direction: 1
