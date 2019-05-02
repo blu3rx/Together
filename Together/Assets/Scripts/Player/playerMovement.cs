@@ -8,7 +8,7 @@ public class playerMovement : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rbody;
 
-    
+
 
     public float moveSpeed = 5f;
     public float maxSpeed = 5f;
@@ -18,7 +18,7 @@ public class playerMovement : MonoBehaviour
 
     private float slideTimer = 0f;
     private float punchTimer = 0f;
-    private float runPunchTimer=0f;
+    private float runPunchTimer = 0f;
     private float jumpCooldown = 0f;
     private float horizontal;
 
@@ -26,7 +26,7 @@ public class playerMovement : MonoBehaviour
 
     bool facingRight = true;
     bool gameOver = false;
-   
+
     [SerializeField] bool grounded = false;
     [SerializeField] bool isJump = false;
     [SerializeField] bool isIdle = false;
@@ -37,13 +37,14 @@ public class playerMovement : MonoBehaviour
     [SerializeField] bool isRunPunch = false;
     [SerializeField] bool isDead = false;
 
+
     public baseCharacter player;
 
-    
+
 
     void Awake()
     {
-        
+
         anim = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
 
@@ -57,8 +58,9 @@ public class playerMovement : MonoBehaviour
 
     void Update()
     {
+
         isDead = player.isDead;
-        GameController.Instance.GameOver =gameOver;
+        GameController.Instance.GameOver = gameOver;
 
         if (jumpCooldown > 0)
             jumpCooldown -= Time.deltaTime;
@@ -70,19 +72,19 @@ public class playerMovement : MonoBehaviour
             slideTimer -= Time.deltaTime;
 
 
-            GetComponent<animController>().AnimChanger(
-            isJump,isIdle,isWalk,isRun,isPunch,isSlide,isRunPunch,isDead
-            );
+        GetComponent<animController>().AnimChanger(
+        isJump, isIdle, isWalk, isRun, isPunch, isSlide, isRunPunch, isDead
+        );
 
         DrawRay();
         MoveChecker();
 
-        
 
-        if(!isSlide)
-         Facing();
 
-        Debug.Log(player.Health);
+        if (!isSlide)
+            Facing();
+
+       // Debug.Log(player.Health);
     }
 
 
@@ -111,8 +113,10 @@ public class playerMovement : MonoBehaviour
 
     void FixedInputUpdate()
     {
-        if(!isSlide)
+
+        if (!isSlide)
             horizontal = Input.GetAxisRaw("Horizontal");
+
         rbody.velocity = new Vector2(horizontal * moveSpeed, rbody.velocity.y);
 
         if (Mathf.Abs(rbody.velocity.x) > maxSpeed)
@@ -145,7 +149,7 @@ public class playerMovement : MonoBehaviour
         }
 
         //run
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Joystick1Button0))
         {
             isPunch = false;
             if (horizontal != 0 && !isJump)
@@ -156,22 +160,22 @@ public class playerMovement : MonoBehaviour
             }
 
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else
         {
             isRun = false;
             if (!isSlide)
                 maxSpeed = 1f;
         }
-      
+
         //run-punch
-        if (Input.GetKeyDown(KeyCode.E) && isRun && !isSlide)
+        if (Input.GetKeyDown(KeyCode.E) && isRun && !isSlide || Input.GetKeyDown(KeyCode.Joystick1Button2) && isRun && !isSlide)
         {
             isRunPunch = true;
             runPunchTimer = 0.75f;
             if (!grounded)
             {
                 runPunchTimer = 0.75f;
-                isJump=false;
+                isJump = false;
             }
         }
         else if (runPunchTimer <= 0f)
@@ -181,10 +185,11 @@ public class playerMovement : MonoBehaviour
 
 
         //punch
-        if (Input.GetKeyDown(KeyCode.E) && !isRunPunch && !isSlide)
+        if ((Input.GetKeyDown(KeyCode.E) && !isRunPunch && !isSlide )||( Input.GetKeyDown(KeyCode.Joystick1Button2) && !isRun && !isSlide))
         {
             isPunch = true;
             maxSpeed = 0f;
+
             if (!grounded)
             {
                 punchTimer = 0.3f;
@@ -203,7 +208,10 @@ public class playerMovement : MonoBehaviour
         }
 
         //jump
-        if (Input.GetKeyDown(KeyCode.UpArrow) && grounded || Input.GetKeyDown(KeyCode.W) && grounded || Input.GetKeyDown(KeyCode.Space) && grounded)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && grounded ||
+            Input.GetKeyDown(KeyCode.W) && grounded ||
+            Input.GetKeyDown(KeyCode.Space) && grounded ||
+            Input.GetKeyDown(KeyCode.Joystick1Button1) && grounded)
         {
             isJump = true;
             rbody.AddForce(new Vector2(0, jumpPower * 100));
@@ -214,17 +222,25 @@ public class playerMovement : MonoBehaviour
 
 
         //slide
-        if (Input.GetKeyDown(KeyCode.Q) && isRun)
+        if (!isSlide)
         {
-            isSlide = true;
-            rbody.AddForce(new Vector2(slidePower * 100, 0));
-            slideTimer = 0.75f;
-            maxSpeed = 3;
-        }
-        else if (slideTimer <= 0)
+            if ((Input.GetKeyDown(KeyCode.Q) && isRun) || (Input.GetAxis("Slide") > 0 && isRun))
+            {
+                isSlide = true;
+                rbody.AddForce(new Vector2(slidePower * 100, 0));
+                slideTimer = 0.75f;
+                maxSpeed = 3;
+            }
+            else if (slideTimer <= 0)
+            {
+                isSlide = false;
+            }
+        }else if(slideTimer <= 0)
         {
-            isSlide = false;
+                isSlide = false;
+            
         }
+    
         if (isDead)
         {
             isJump = false;
